@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xaml-comp compile="true" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SmartIoTControlApp.Pages.MainPage"
+             BackgroundColor="{DynamicResource PageBackgroundColor}"
+             Title="Inicio">
+
+    <VerticalStackLayout Padding="30" Spacing="25" VerticalOptions="Center">
+        <Label Text="Smart IoT Control"
+               FontSize="32"
+               FontAttributes="Bold"
+               HorizontalOptions="Center"
+               TextColor="{DynamicResource PrimaryTextColor}" />
+
+        <Label Text="Automatiza y controla tus dispositivos desde cualquier lugar del mundo"
+               FontSize="16"
+               HorizontalOptions="Center"
+               HorizontalTextAlignment="Center"
+               TextColor="{DynamicResource SecondaryTextColor}" />
+
+        <Button Text="Entrar"
+                FontSize="18"
+                BackgroundColor="{DynamicResource PrimaryColor}"
+                TextColor="White"
+                CornerRadius="12"
+                HeightRequest="50"
+                Clicked="OnEnterClicked" />
+    </VerticalStackLayout>
+</ContentPage>
