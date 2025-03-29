@@ -1,10 +1,14 @@
 using Microsoft.Maui.Controls;
 using System;
+using SmartIoTControlApp.Services;
+using DeviceModel = SmartIoTControlApp.Models.Device;
 
 namespace SmartIoTControlApp.Pages
 {
     public partial class AddDevicePage : ContentPage
     {
+        private readonly DeviceService _deviceService = new DeviceService();
+
         public AddDevicePage()
         {
             InitializeComponent();
@@ -12,19 +16,30 @@ namespace SmartIoTControlApp.Pages
 
         private async void OnSaveClicked(object sender, EventArgs e)
         {
-            string name = NameEntry.Text;
-            string type = TypePicker.SelectedItem?.ToString();
-
-            if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(type))
+            if (string.IsNullOrWhiteSpace(NameEntry.Text) || TypePicker.SelectedIndex == -1)
             {
-                await DisplayAlert("Error", "Por favor complete todos los campos.", "OK");
+                await DisplayAlert("Error", "Por favor, complete todos los campos.", "OK");
                 return;
             }
 
-            Console.WriteLine($"Nuevo dispositivo: {name} - {type}");
+            var newDevice = new DeviceModel
+            {
+                Id = Guid.NewGuid(),
+                Name = NameEntry.Text,
+                Type = TypePicker.SelectedItem.ToString(),
+                IsOnline = IsOnlineSwitch.IsToggled
+            };
 
-            await DisplayAlert("Éxito", "Dispositivo agregado correctamente.", "OK");
-            await Navigation.PopAsync();
+            try
+            {
+                await _deviceService.AddDeviceAsync(newDevice);
+                await DisplayAlert("Éxito", "Dispositivo agregado correctamente", "OK");
+                await Navigation.PopAsync();
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error", $"No se pudo guardar el dispositivo.\n{ex.Message}", "OK");
+            }
         }
     }
 }
